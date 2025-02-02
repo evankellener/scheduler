@@ -1,0 +1,83 @@
+thesis:
+
+AI TOM from Toonami reads me the schedule of content for the day.
+
+auto-generate comprehensive CSV based on list of content in ./media/movies & ./media/tv
+
+
+method:
+
+**BIG ISSUE. SERVER WILL CRASH IF YOU GIVE IT THE NEW library.db WITH seconds COLUMN. NEED TO GENERATE FRESH CSV AND USE THAT FOR PLAYLIST MAKING DECISIONS. STORE CSV IN THE py program directory. NOT ON JELLYFIN 
+
+py script should start with a check of jellyfin's library.db.
+
+next, generate a CSV with columns
+    SortName, RunTimeTicks, Seconds*, Genres
+
+# use contents of newly generated CSV to create the playlist. 
+# This way we only work with what is available on the server 
+# at the time of code execution (morning 12:01 am?).
+
+--PLAYLIST SHOULD TOTAL 21 HOURS. 7 HOUR BLOCKS
+
+--NEED TO CHANGE THE PY SCRIPT TO PULL and work with SECONDS INSTEAD OF MINUTES
+
+--ALSO CHANGE THE *ADs* TO INSTEAD PULL FROM VIDEOS IN ~/jellyfin/media/bumps
+
+Run NEW code with changes to some paths and values to match.
+
+also account for the 30 second playlist_bump to play later once theyre created
+
+Fix inevitable errors.
+
+also once finished.. generate 3 MP4 files. The schedule for each time_slot animated in line by line MOVIES AND SHOWS ONLY DO NOT PREVIEW BUMPS
+
+*** maybe new program? hopefully in the same ***
+AI TOM will read the newly created playlist and generate a script based on the playlist. 
+
+Next it will pull the 3 MP4 files and add an audio track of TOM reading the shows to come and export that to a subfolder of bumps.
+
+archive depreciated bumps
+
+now it needs to create the jellyfin playlist so it is recognizable.
+
+## THEORY
+## is there a way i can pipe this into the LIVETV function of jellyfin?
+
+## OTHERWISE
+
+## need a way to automatically play through the playlist --> end 
+## around 3:30 am --> wait 
+
+
+
+# in case you lose the seconds column. run this in DB Browser's
+# "Execute SQL" tab
+******
+
+ALTER TABLE TypedBaseItems ADD COLUMN Seconds INTEGER;
+
+UPDATE TypedBaseItems
+SET Seconds = RunTimeTicks/10000000;
+
+******
+
+_____misc notes______
+list must now be generated based on CSV.
+**Can the python script read the active library.db file and export a CSV with the below columns 
+
+    SortName, RunTimeTicks, Seconds*, Genres
+
+pull from SQlite rcs.server/home/user/jellyfin/config/data/library.db
+
+within the .db you need to find the "TypedBaseItems" table
+
+
+
+
+overwrite csv with new
+
+run program again
+
+export new table to the actual server
+
